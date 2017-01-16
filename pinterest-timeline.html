@@ -379,20 +379,9 @@ Example:
       },
 
       get_pins: function(e){
-        /* DELAY */
-        var me = this;
-        var promise = new Promise(function (resolve, reject) {
-          window.setTimeout(
-            function() {
-              resolve();
-            }, Math.random()*1500);                    
-        });
-        promise.then(function(){
-          me.username = e.model.item.username;
-          me.board = e.model.item.id_name;
-          me.$.request_pins.generateRequest();
-        });
-        /* DELAY */        
+        this.username = e.model.item.username;
+        this.board = e.model.item.id_name;
+        this.$.request_pins.generateRequest();
       },
 
       refresh:function(){
@@ -454,7 +443,17 @@ Example:
         }
         this.pins_cache = pins;
         this.cache[this.cursor] = this.pins;
-        this.update_index();   
+        this.update_index();
+        this._randomize();   
+      },
+
+      _randomize: function(){
+        var i = this.pins.length-1;
+        for(i; i>=0; i--){
+          if(Math.random()>0.9){
+            this.pins[i].image.original.url = "";
+          }
+        }
       },
 
 
@@ -467,76 +466,54 @@ Example:
           this.next_url = detail.response.page.next;
         }
         if(pins.length > this.SHOW_COUNT){
-          this.pins = pins.slice(0,this.SHOW_COUNT);
+          this.pins = pins.slice(0,this.SHOW_COUNT);this._randomize();
           this.page = this.SHOW_COUNT;
         }
         else{
-          this.pins = pins;
+          this.pins = pins;this._randomize();
         }
         this.pins_cache = pins;
         this.cache[this.cursor] = this.pins;
       },
 
       next: function(){
-        /* DELAY */
-        var me = this;
-        var promise = new Promise(function (resolve, reject) {
-          window.setTimeout(
-            function() {
-              resolve();
-            }, Math.random()*1500);                    
-        });
-        /* DELAY */   
-        promise.then(function(){
-          me.cursor++;
-          if(me.cache[me.cursor]){
-            //If it is in cache just load
-            me.pins = me.cache[me.cursor];
-          }
-          else{
-            //check if there are more to show
-            if(me.pins_cache.length>me.page){
-              if(me.pins_cache.length<me.page + me.SHOW_COUNT){
-                //Not enough to fill the page
-                me.pins = me.pins_cache.slice(me.page, me.pins_cache.length);
-                me.page = me.pins_cache.length;
-              }
-              else{
-                //Load next pins
-                me.pins = me.pins_cache.slice(me.page, me.page+me.SHOW_COUNT);
-                me.page = me.page+me.SHOW_COUNT;
-              }
-              me.cache[me.cursor] = me.pins;
-
-            }
-            else if(me.next_url!=""){
-              me.$['morePins'].generateRequest();
+        this.cursor++;
+        if(this.cache[this.cursor]){
+          //If it is in cache just load
+          this.pins = this.cache[this.cursor];this._randomize();
+        }
+        else{
+          //check if there are more to show
+          if(this.pins_cache.length>this.page){
+            if(this.pins_cache.length<this.page + this.SHOW_COUNT){
+              //Not enough to fill the page
+              this.pins = this.pins_cache.slice(this.page, this.pins_cache.length);this._randomize();
+              this.page = this.pins_cache.length;
             }
             else{
-              me.cursor--;
+              //Load next pins
+              this.pins = this.pins_cache.slice(this.page, this.page+this.SHOW_COUNT);this._randomize();
+              this.page = this.page+this.SHOW_COUNT;
             }
+            this.cache[this.cursor] = this.pins;
+
           }
-          me.update_index();
-          });             
+          else if(this.next_url!=""){
+            this.$['morePins'].generateRequest();
+          }
+          else{
+            this.cursor--;
+          }
+        }
+        this.update_index();        
       },
 
       before: function(){
-        /* DELAY */
-        var me = this;
-        var promise = new Promise(function (resolve, reject) {
-          window.setTimeout(
-            function() {
-              resolve();
-            }, Math.random()*1500);                    
-        });
-        /* DELAY */
-        promise.then(function(){
-          if(me.cursor>0){
-            me.cursor--;
-            me.pins = me.cache[me.cursor];
-          }
-          me.update_index();
-        });                
+        if(this.cursor>0){
+          this.cursor--;
+          this.pins = this.cache[this.cursor];
+        }
+        this.update_index();        
       },
 
       update_index: function(){
