@@ -25,7 +25,7 @@ Example:
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../paper-material/paper-material.html">
 
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Aclonica" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Aclonica" />
 
 <dom-module id="pinterest-timeline">
 
@@ -310,12 +310,6 @@ Example:
 
         token: String,
 
-        component_base: {
-          type: String,
-          value:"",
-          reflectToAttribute: true
-        },
-
         language: {
           type: String,
           value: "es",
@@ -365,8 +359,8 @@ Example:
       },
 
       /* Calculate endpoint for request url */
-      _calculateLanguageUrl: function(component_directory, file) {
-        return component_directory + "language/" + file;
+      _calculateLanguageUrl: function(file) {
+        return this.resolveUrl("language/" + file);
       },
 
       _language_response: function(event, detail){
