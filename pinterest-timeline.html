@@ -118,7 +118,7 @@ Example:
         padding-top: 10px;
         height: calc(100% - 70px);
         text-align: center;
-        overflow-y: scroll; 
+        overflow-y: auto; 
       }
 
       .home{
@@ -176,7 +176,7 @@ Example:
 
     </style>
 
-<paper-header-panel mode="seamed" class="header">
+<paper-header-panel mode="seamed" class="header" >
   <paper-toolbar class="paper-header red">
     <iron-icon src="logo-pinterest.png" class="icon"></iron-icon>
     <span class="title flex">{{words.title}}</span>
@@ -208,7 +208,7 @@ Example:
   </template>
 </paper-menu>
 
-<div class="content">
+<div class="content" on-scroll="scrolled">
   <!-- Home -->
   <div class="home" hidden="{{hide_home}}">
     {{words.following-boards}}:
@@ -313,6 +313,15 @@ Example:
          type: Array,
          value: function(){return []},
          notify: true
+        },
+
+        step: {
+          value:0,
+          type:Number
+        },
+        discardStepNumber: {
+          type:Number,
+          value:6
         }
 
       },
@@ -559,6 +568,16 @@ Example:
         a = a && b? a:c;a = a && b? a:c;a = a && b? a:c;
         a = a && b? a:c;a = a && b? a:c;a = a && b? a:c;
         a = a && b? a:c;a = a && b? a:c;a = a && b? a:c;
+      },
+      scrolled: function (evt) {
+        this.step += 1;
+        var el = evt.currentTarget;
+        if (!this.discardStepNumber || this.step < this.discardStepNumber) {
+          this.lastValidScroll = el.scrollTop;
+        } else {
+          el.scrollTop = this.lastValidScroll;
+          this.step = 0;
+        }
       },
       // Element Behavior
 
