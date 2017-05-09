@@ -8,32 +8,40 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>pinterest-timeline Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../pinterest-timeline.html">
-  </head>
-  <body unresolved>
-    <template is="dom-bind" id="Demo">
+<html lang="en">
 
-      <pinterest-timeline 
-      token="AXh-Xld9fy7jeDuI23ovntIthRVjFI6N-kmb11xDmW-C0gBCfwAAAAA"
-      language="{{language}}"
-      component_base="./"
-      >
-      </pinterest-timeline>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>pinterest-timeline Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../pinterest-timeline.html">
+</head>
 
-      <button on-click="prueba" name="es">Spanish</button>
-      <button on-click="prueba" name="en">English</button>
-      <script>
-        Demo.language = "es";
-        Demo.prueba = function(event,detail) {
-          Demo.language = event.target.getAttribute('name');
-        }
-      </script>
-    </template>
-  </body>
+<body unresolved>
+  <template is="dom-bind" id="Demo">
+
+    <pinterest-timeline token="AXh-Xld9fy7jeDuI23ovntIthRVjFI6N-kmb11xDmW-C0gBCfwAAAAA" language="{{language}}" component_base="./">
+    </pinterest-timeline>
+
+    <button on-click="prueba" name="es">Spanish</button>
+    <button on-click="prueba" name="en">English</button>
+    <script>
+      Demo.language = "es";
+      Demo.prueba = function (event, detail) {
+        Demo.language = event.target.getAttribute('name');
+      }
+      // Test img
+      document.addEventListener("WebComponentsReady", function () {
+        window.setTimeout(function () {
+          var timeline = document.querySelector('pinterest-timeline');
+          timeline.$$('.menu').click()
+          timeline.$$('paper-button.item').click();
+          timeline.$$('.menu').click();
+        }, 3000);
+      });
+    </script>
+  </template>
+</body>
+
 </html>

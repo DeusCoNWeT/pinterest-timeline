@@ -79,8 +79,8 @@ Example:
       }
 
       .icon{
-        --iron-icon-width: 60px;
-        --iron-icon-height: 46px;
+        width: 60px;
+        height: 46px;
       }
 
       .title{
@@ -171,40 +171,37 @@ Example:
         font-family: Aclonica;
         font-weight: lighter;
       }
+      .board{
+        width: 100%;
+        padding:0;
+      }
 
-
-
+      iron-icon[role="button"] {
+        cursor:pointer;
+      }
     </style>
 
 <paper-header-panel mode="seamed" class="header">
   <paper-toolbar class="paper-header red">
-    <iron-icon src="logo-pinterest.png" class="icon"></iron-icon>
+    <img alt="pinterest logo" src="logo-pinterest.png" class="icon"></img alt="pinterest logo">
     <span class="title flex">{{words.title}}</span>
-    <paper-icon-button icon="refresh" on-click="refresh" hidden="{{!hide_home}}"></paper-icon-button>
-    <paper-icon-button icon="icons:arrow-back" on-click="before" hidden="{{!hide_home}}"></paper-icon-button>
+    <iron-icon aria-label="test" alt="refresh timeline" icon="refresh" on-click="refresh" hidden="{{!hide_home}}">Prueba</iron-icon>
+    <iron-icon aria-label="test" alt="previus list" icon="icons:arrow-back" on-click="before" hidden="{{!hide_home}}"></iron-icon>
     <p>
       {{get_index}}
     </p>
-    <paper-icon-button icon="icons:arrow-forward" on-click="next" hidden="{{!hide_home}}"></paper-icon-button>
-    <paper-icon-button icon="menu" class="menu" on-click="toggle"></paper-icon-button>
+    <iron-icon aria-label="test" alt="next list" icon="icons:arrow-forward" on-click="next" hidden="{{!hide_home}}"></iron-icon>
+    <iron-icon aria-label="test" alt="menu button" icon="menu" class="menu" on-click="toggle"></iron-icon>
   </paper-toolbar>
 </paper-header-panel>
 <paper-menu id="dropdown-content" class="dropdown-content" role="listbox">
-  <hr>
-  <b>{{words.following-boards}}:</b>
-  <hr>
+  <paper-item>{{words.following-boards}}:</paper-item>
   <template is="dom-repeat" items="[[following_boards]]">
-
-    <paper-button raised class="item" on-click="get_pins">{{item.name}}</paper-button>
-
+    <paper-item class="board"><paper-button raised class="item" on-click="get_pins">{{item.name}}</paper-button></paper-item>
   </template>
-  <hr>
-  <b>{{words.my-boards}}:</b>
-  <hr>
+  <paper-item>{{words.my-boards}}:</paper-item>
   <template is="dom-repeat" items="[[boards]]">
-
-    <paper-button raised class="item" on-click="get_pins">{{item.name}}</paper-button>
-
+    <paper-item class="board"><paper-button raised class="item" on-click="get_pins">{{item.name}}</paper-button></paper-item>
   </template>
 </paper-menu>
 
@@ -220,12 +217,10 @@ Example:
       <paper-button raised class="itemBig" on-click="get_pins">{{item.name}}</paper-button>
     </template>
   </div>
-
-
   <!-- PINS -->
   <template is="dom-repeat" items="{{pins}}">
     <a href="{{item.url}}" target="_blank">
-      <img class="pin" src="{{item.image.original.url}}">
+      <img alt="{{item.note}}" class="pin" src="{{item.image.original.url}}">
     </a>
   </template>
 </div>
@@ -367,7 +362,7 @@ Example:
       },
 
       _get_pins_param: function (token, REQ_LIMIT) {
-        return { access_token: token, fields: "id,url,image", limit: REQ_LIMIT };
+        return { access_token: token, fields: "id,url,image,note", limit: REQ_LIMIT };
       },
 
       _user_received: function (event, detail) {
