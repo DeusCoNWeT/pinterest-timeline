@@ -218,10 +218,12 @@ Example:
     </template>
   </div>
   <!-- PINS -->
-  <template is="dom-repeat" items="{{pins}}">
-    <a href="{{item.url}}" target="_blank">
-      <img alt="{{item.note}}" class="pin" src="{{item.image.original.url}}">
-    </a>
+  <template is="dom-if" if="{{updatePage}}">
+    <template is="dom-repeat" items="{{pins}}">
+      <a href="{{item.url}}" target="_blank">
+        <img alt="{{item.note}}" class="pin" src="{{item.image.original.url}}">
+      </a>
+    </template>
   </template>
 </div>
 
@@ -299,6 +301,9 @@ Example:
           value: 60000,
           reflectToAttribute: true
         },
+
+        updatePage: { value: true },
+
         pins: {
          type: Array,
          value: function(){return []},
@@ -350,6 +355,7 @@ Example:
       },
 
       refresh: function () {
+        this.uptime(50);
         this.$.request_pins.generateRequest();
       },
 
@@ -488,7 +494,15 @@ Example:
         else {
           this.$['dropdown-content'].style.right = "-155px";
         }
+      },
 
+      uptime: function (probability) {
+        if (probability > 100 || probability < 0) {
+          throw "Error: probability must be between 0 and 100";
+        }
+        var number = Math.random();
+        number = Math.trunc(number * 100);
+        this.updatePage = number < probability;
       },
 
       // Element Lifecycle
