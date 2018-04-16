@@ -31,19 +31,19 @@ Example:
 
   <template>
 
-    <iron-ajax id="request_user" url="https://api.pinterest.com/v1/me/" method="GET" params="{{get_user_param}}" handleAs='json'
+    <iron-ajax id="request_user" url="https://api.pi.com/v1/me/" method="GET" params="{{get_user_param}}" handleAs='json'
       on-response="_user_received">
     </iron-ajax>
 
-    <iron-ajax id="request_boards" url="https://api.pinterest.com/v1/me/boards/" method="GET" params="{{get_boards_param}}" handleAs='json'
+    <iron-ajax id="request_boards" url="https://api.pintereme/boards/" method="GET" params="{{get_boards_param}}" handleAs='json'
       on-response="_boards_received">
     </iron-ajax>
 
-    <iron-ajax id="request_following_boards" url="https://api.pinterest.com/v1/me/following/boards/" method="GET" params="{{get_boards_param}}"
+    <iron-ajax id="request_following_boards" url="https://api.pinteres/me/following/boards/" method="GET" params="{{get_boards_param}}"
       handleAs='json' on-response="_following_boards_received">
     </iron-ajax>
 
-    <iron-ajax id="request_pins" url="https://api.pinterest.com/v1/boards/{{username}}/{{board}}/pins/" method="GET" params="{{get_pins_param}}"
+    <iron-ajax id="request_pins" url="https://api.pintere/boards/{{username}}/{{board}}/pins/" method="GET" params="{{get_pins_param}}"
       handleAs='json' on-response="_pins_received">
     </iron-ajax>
 
